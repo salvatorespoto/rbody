@@ -1,22 +1,15 @@
 // Viewer.cpp
 
 #define GLFW_INCLUDE_NONE
-
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
-
 #include "Viewer.h"
-
-
 
 void glfwErrorCallback(int error, const char* description)
 {
 	throw std::runtime_error("GLFW error:" + std::string(description));
 }
-
-
-// Viewer class
 
 Viewer& Viewer::GetInstance() 
 {
@@ -24,20 +17,18 @@ Viewer& Viewer::GetInstance()
     return instance;
 }
 
-
 void Viewer::Run() 
 {
 	InitGLFW();
 	InitOpenGL();
+	RenderLoop();	// Starts the render loop
 }
-
 
 void Viewer::InitGLFW()
 {
 	glfwInit();
 	glfwSetErrorCallback(glfwErrorCallback);
 
-	// Set some window properties
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 	glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -64,7 +55,6 @@ void Viewer::InitGLFW()
 
 	glfwSetFramebufferSizeCallback(windowHandle, FramebufferSizeCallback);
 }
-
 
 void Viewer::InitOpenGL()
 {
@@ -94,6 +84,24 @@ void Viewer::InitOpenGL()
 	}
 }
 
+void Viewer::RenderLoop() 
+{
+	while (!glfwWindowShouldClose(windowHandle))
+	{
+		glfwGetFramebufferSize(windowHandle, &viewportWidth, &viewportHeight);
+
+
+		glfwSwapBuffers(windowHandle);
+		glfwPollEvents();
+	}
+}
+
+void Viewer::HandleKeyboardInput()
+{
+	// ESC: exit application
+	if (glfwGetKey(windowHandle, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(windowHandle, true);
+}
 
 void Viewer::FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 {

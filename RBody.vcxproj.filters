@@ -38,6 +38,9 @@
     <ClInclude Include="Viewer\Shader.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="RBody\shapes.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

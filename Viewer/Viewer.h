@@ -1,12 +1,9 @@
 // Viewer.h
-#pragma once
 
+#pragma once
 #include <GLFW\glfw3.h>
 #include <glad/glad.h>
-
 #include "Shader.h"
-
-
 
 /**
  * Callback used from GLFW to report errors
@@ -16,24 +13,19 @@
  */
 void glfwErrorCallback(int error, const char* description);
 
-
+/** 
+ * Implements the Viewer application 
+ */
 class Viewer 
 {
-
-private:
-
-	GLFWwindow* windowHandle;	
-	int windowWidth = 800;		
-	int windowHeight = 600;	
-	int viewportWidth;		
-	int viewportHeight;		
-
-	Shader* vertexShader;			
-	Shader* pixelShader;
-	GLuint shaderProgram;
-
-
 public:
+
+	/**
+	 * Return the singleton instance of the Viewer
+	 */
+	static Viewer& GetInstance();
+
+	void Run();
 
 	/**
 	 * Callback Called on framebuffer resize event
@@ -44,23 +36,20 @@ public:
 	 */
 	static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
-	/**
-	 * Return the singleton instance of the Viewer
-	 */
-	static Viewer& GetInstance();
+private:
 
-	/**
-	 * Run the application
-	 */
-	void Run();
+	GLFWwindow* windowHandle = NULL;	
+	int windowWidth = 800;		
+	int windowHeight = 600;	
+	int viewportWidth = 800;		
+	int viewportHeight = 600;		
 
-	/**
-	 * Init window using the GLFW library
-	 */
+	Shader* vertexShader = NULL;			
+	Shader* pixelShader = NULL;
+	GLuint shaderProgram = 0;
+
 	void InitGLFW();
-
-	/**
-	 * Init OpenGL
-	 */
 	void InitOpenGL();
+	void RenderLoop();	
+	void HandleKeyboardInput();
 };
